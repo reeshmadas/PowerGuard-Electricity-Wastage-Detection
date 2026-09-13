@@ -1,0 +1,303 @@
+```css
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+
+/* HEADER */
+
+.top-header {
+    width: 100%;
+    background: white;
+    padding: 25px 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-header h1 {
+    margin: 0;
+    font-size: 30px;
+    color: #172554;
+}
+
+.top-header p {
+    margin: 6px 0 0;
+    color: #64748b;
+}
+
+.header-time {
+    background: #f1f5f9;
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: #475569;
+}
+
+
+/* MAIN */
+
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 35px auto;
+}
+
+.container > h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #172554;
+}
+
+
+/* SUMMARY CARDS */
+
+.summary-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    margin-bottom: 45px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.summary-icon {
+    font-size: 32px;
+}
+
+.summary-card h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    color: #64748b;
+}
+
+.summary-card p {
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: #172554;
+}
+
+.alert-card p {
+    color: #dc2626;
+}
+
+
+/* SECTION HEADINGS */
+
+section > h2 {
+    text-align: center;
+    margin: 35px 0 25px;
+    color: #172554;
+}
+
+
+/* APPLIANCES */
+
+.appliances-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-bottom: 40px;
+}
+
+.appliance-card {
+    background: white;
+    padding: 25px 20px;
+    border-radius: 16px;
+    text-align: center;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+    transition: transform 0.2s;
+}
+
+.appliance-card:hover {
+    transform: translateY(-5px);
+}
+
+.appliance-icon {
+    font-size: 45px;
+    margin-bottom: 8px;
+}
+
+.appliance-card h3 {
+    margin: 8px 0;
+    font-size: 21px;
+}
+
+.power {
+    color: #64748b;
+}
+
+
+/* STATUS */
+
+.status-on {
+    color: #16a34a;
+    font-weight: bold;
+}
+
+.status-off {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+
+/* BUTTON */
+
+button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    background: #2563eb;
+    color: white;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+
+/* ROOM */
+
+.room-section {
+    margin-top: 40px;
+}
+
+.room-card {
+    background: white;
+    padding: 25px 30px;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.room-card h3 {
+    margin-top: 0;
+    color: #172554;
+}
+
+.room-button {
+    background: #7c3aed;
+}
+
+.wastage-alert {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+
+    background: #ecfdf5;
+    color: #15803d;
+    font-weight: bold;
+}
+
+
+/* TABLE */
+
+.table-section {
+    margin-top: 45px;
+    margin-bottom: 50px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+
+    border-radius: 15px;
+    overflow: hidden;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+th {
+    background: #172554;
+    color: white;
+    padding: 16px;
+}
+
+td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #172554;
+    color: white;
+    margin-top: 40px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+
+    .summary-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .appliances-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .top-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .summary-container {
+        grid-template-columns: 1fr;
+    }
+
+    .appliances-container {
+        grid-template-columns: 1fr;
+    }
+
+    .room-card {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+}

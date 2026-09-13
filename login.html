@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PowerGuard Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <h1>⚡ PowerGuard</h1>
+            <p>Electricity Wastage Detection System</p>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Username"
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+            >
+
+            <button onclick="login()">Login</button>
+
+            <p id="loginMessage"></p>
+
+        </div>
+
+    </div>
+
+    <script>
+        function login() {
+
+            const username =
+                document.getElementById("username").value;
+
+            const password =
+                document.getElementById("password").value;
+
+            if (username === "admin" && password === "1234") {
+
+                window.location.href = "dashboard.html";
+
+            } else {
+
+                document.getElementById("loginMessage").textContent =
+                    "❌ Invalid username or password";
+            }
+        }
+    </script>
+
+</body>
+</html>

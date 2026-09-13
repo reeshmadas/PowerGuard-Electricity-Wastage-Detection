@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PowerGuard - Electricity Wastage Detection</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .top-header {
+            width: 100%;
+            background: white;
+            padding: 22px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .brand p {
+            margin: 6px 0 0;
+            color: #6b7280;
+        }
+
+        .header-time {
+            text-align: right;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 30px auto;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            margin-top: 8px;
+        }
+
+        /* DOWNLOAD REPORT */
+
+        .report-area {
+            text-align: center;
+            margin: 20px 0 35px;
+        }
+
+        .report-button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .report-button:hover {
+            background: #1d4ed8;
+        }
+
+        /* SUMMARY CARDS */
+
+        .summary-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px 15px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        .summary-icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .summary-card h3 {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        .summary-card p {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .alert-card {
+            border-top: 4px solid #ef4444;
+        }
+
+        /* SECTION TITLES */
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 22px;
+            font-size: 25px;
+        }
+
+        /* GRAPH */
+
+        .graph-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+
+        .graph-card h3 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+       .chart-wrapper {
+    width: 100%;
+    height: 350px;
+    position: relative;
+}
+
+        /* APPLIANCES */
+
+        .appliances-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .appliance-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        .appliance-icon {
+            font-size: 38px;
+        }
+
+        .appliance-card h3 {
+            font-size: 21px;
+            margin: 12px 0;
+        }
+
+        .power {
+            font-size: 16px;
+        }
+
+        .status-on {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .status-off {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .appliance-card button {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #e9eef5;
+            font-size: 14px;
+        }
+
+        .appliance-card button:hover {
+            background: #dbe3ee;
+        }
+
+        /* ROOM */
+
+        .room-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .room-card h3 {
+            font-size: 22px;
+        }
+
+        .room-button {
+            margin-top: 10px;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .wastage-alert {
+            max-width: 700px;
+            margin: 15px auto;
+            padding: 15px;
+            background: #ecfdf5;
+            border-radius: 10px;
+            text-align: center;
+            color: #166534;
+        }
+
+        /* TABLE */
+
+        .table-section {
+            margin-top: 40px;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        th,
+        td {
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #eef2f7;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+            background: white;
+            color: #555;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1050px) {
+
+            .summary-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .appliances-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .top-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .header-time {
+                text-align: center;
+            }
+
+            .summary-container,
+            .appliances-container {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .page-title h2 {
+                font-size: 23px;
+            }
+        }
+    .alerts-section {
+    width: 100%;
+    margin: 30px 0;
+}
+
+.alert-message {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+}
+/* ALERT HISTORY */
+
+.alert-history {
+    margin-top: 40px;
+}
+
+.alert-history-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+}
+
+.alert-history table {
+    width: 100%;
+}
+
+.alert-history th {
+    background: #eef2f7;
+}
+
+.alert-history td,
+.alert-history th {
+    padding: 14px;
+    text-align: center;
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="top-header">
+
+    <div class="brand">
+
+        <h1>⚡ PowerGuard</h1>
+
+        <p>
+            Electricity Wastage Detection System
+        </p>
+
+    </div>
+
+
+    <div class="header-time">
+
+        🕒
+        <span id="currentTime">
+            Loading...
+        </span>
+
+    </div>
+
+</header>
+
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="page-title">
+
+        <h2>
+            📊 Energy Dashboard
+        </h2>
+
+        <p>
+            Real-time electricity consumption and wastage monitoring
+        </p>
+
+    </div>
+
+
+
+    <!-- DOWNLOAD REPORT -->
+
+    <div class="report-area">
+
+        <button
+    id="downloadReportBtn"
+    class="report-button"
+    type="button">
+
+    📥 Download Report
+
+</button>
+
+    </div>
+
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary-container">
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Current Usage
+            </h3>
+
+            <p id="currentUsage">
+                3.25 kW
+            </p>
+
+        </div>
+
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                💰
+            </div>
+
+            <h3>
+                Estimated Daily Cost
+            </h3>
+
+            <p id="dailyCost">
+                ₹624.00
+            </p>
+
+        </div>
+
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                📅
+            </div>
+
+            <h3>
+                Estimated Monthly Bill
+            </h3>
+
+            <p id="monthlyBill">
+                ₹18720.00
+            </p>
+
+        </div>
+
+
+
+        <div class="summary-card alert-card">
+
+            <div class="summary-icon">
+                ⚠️
+            </div>
+
+            <h3>
+                Wasted Energy
+            </h3>
+
+            <p id="wastedEnergy">
+                0.20 kWh
+            </p>
+
+        </div>
+         
+        <div class="summary-card alert-card">
+
+    <div class="summary-icon">
+        🔔
+    </div>
+
+    <h3>
+        Alerts
+    </h3>
+
+    <p id="alertCount">
+        0
+    </p>
+
+</div>
+
+
+        <div class="summary-card alert-card">
+
+            <div class="summary-icon">
+                💸
+            </div>
+
+            <h3>
+                Money Wasted
+            </h3>
+
+            <p id="moneyWasted">
+                ₹2.00
+            </p>
+
+        </div>
+
+
+    </section>
+    <!-- MONTHLY SAVING TARGET -->
+
+<section class="summary-container">
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            🎯
+        </div>
+
+        <h3>
+            Monthly Saving Target
+        </h3>
+
+        <p id="savingTarget">
+            ₹1000
+        </p>
+        <div style="margin-top:15px;">
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        font-size:13px;
+        color:#6b7280;
+        margin-bottom:6px;
+    ">
+        <span>Saving Progress</span>
+        <span id="savingProgressText">0%</span>
+    </div>
+
+    <div style="
+        width:100%;
+        height:10px;
+        background:#e5e7eb;
+        border-radius:10px;
+        overflow:hidden;
+    ">
+        <div id="savingProgressBar"
+             style="
+                width:0%;
+                height:100%;
+                background:#16a34a;
+                border-radius:10px;
+             ">
+        </div>
+    </div>
+
+</div>
+        <div style="margin-top:15px;">
+
+    <p style="margin:5px 0; font-size:14px;">
+        Saving Progress
+    </p>
+
+    <div style="
+        width:100%;
+        height:12px;
+        background:#e5e7eb;
+        border-radius:10px;
+        overflow:hidden;
+    ">
+
+        <div id="savingProgress"
+             style="
+                width:0%;
+                height:100%;
+                background:#16a34a;
+                transition:width 0.5s;
+             ">
+        </div>
+
+    </div>
+
+    <p id="savingProgressText"
+       style="
+          margin:8px 0 0;
+          font-size:14px;
+          font-weight:bold;
+       ">
+        0% Saved
+    </p>
+
+</div>
+
+        <button
+            onclick="setSavingTarget()"
+            style="
+                margin-top:12px;
+                border:none;
+                padding:8px 15px;
+                border-radius:8px;
+                cursor:pointer;
+                background:#2563eb;
+                color:white;
+            ">
+
+            Set Target
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+    <!-- GRAPH -->
+
+    <section class="graph-card">
+
+        <h3>
+            📈 Electricity Consumption
+        </h3>
+
+        <div class="chart-wrapper">
+
+            <canvas
+                id="energyChart"
+                width="1000"
+                height="350">
+            </canvas>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- APPLIANCES -->
+
+    <h2 class="section-title">
+        ⚡ Appliances Monitoring
+    </h2>
+
+
+    <section class="appliances-container">
+
+
+        <!-- FAN -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-icon">
+                🌀
+            </div>
+
+            <h3>
+                Fan
+            </h3>
+
+            <p class="power">
+                Power:
+                <b>75 W</b>
+            </p>
+
+            <p>
+                Status:
+                <span class="status-on">
+                    ON
+                </span>
+            </p>
+
+            <button
+                onclick="toggleAppliance(this)">
+
+                Turn OFF
+
+            </button>
+
+        </div>
+
+
+
+        <!-- LIGHT -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-icon">
+                💡
+            </div>
+
+            <h3>
+                Light
+            </h3>
+
+            <p class="power">
+                Power:
+                <b>40 W</b>
+            </p>
+
+            <p>
+                Status:
+                <span class="status-on">
+                    ON
+                </span>
+            </p>
+
+            <button
+                onclick="toggleAppliance(this)">
+
+                Turn OFF
+
+            </button>
+
+        </div>
+
+
+
+        <!-- AC -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-icon">
+                ❄️
+            </div>
+
+            <h3>
+                AC
+            </h3>
+
+            <p class="power">
+                Power:
+                <b>1200 W</b>
+            </p>
+
+            <p>
+                Status:
+                <span class="status-on">
+                    ON
+                </span>
+            </p>
+
+            <button
+                onclick="toggleAppliance(this)">
+
+                Turn OFF
+
+            </button>
+
+        </div>
+
+
+
+        <!-- TV -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-icon">
+                📺
+            </div>
+
+            <h3>
+                TV
+            </h3>
+
+            <p class="power">
+                Power:
+                <b>100 W</b>
+            </p>
+
+            <p>
+                Status:
+                <span class="status-off">
+                    OFF
+                </span>
+            </p>
+
+            <button
+                onclick="toggleAppliance(this)">
+
+                Turn ON
+
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ROOM MONITORING -->
+
+    <h2 class="section-title">
+        🏠 Room Monitoring
+    </h2>
+
+
+    <section class="room-card">
+
+        <h3>
+            Room 102
+        </h3>
+
+        <p>
+
+            Occupancy:
+
+            <b id="room102-occupancy">
+                Occupied
+            </b>
+
+        </p>
+
+
+        <p>
+
+            Status:
+
+            <span id="room102-status">
+                ✅ Normal
+            </span>
+
+        </p>
+
+
+        <button
+            onclick="toggleRoom102()"
+            class="room-button">
+
+            Change Occupancy
+
+        </button>
+
+    </section>
+
+
+
+    <div
+        id="wastageAlert"
+        class="wastage-alert">
+
+        ✅ Room 102 is occupied.
+        No wastage detected.
+
+    </div>
+    <!-- ALERT HISTORY -->
+
+<section class="alert-history">
+
+    <h2 class="section-title">
+        🔔 Alert History
+    </h2>
+
+    <div class="alert-history-card">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Alert</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="alertHistoryBody">
+
+                <tr>
+                    <td colspan="3">
+                        No alerts yet
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+    <section class="alerts-section">
+
+    <h2 class="section-title">
+        🔔 Alerts & Notifications
+    </h2>
+
+    <div id="alertMessage" class="alert-message">
+        ✅ No active alerts. Electricity usage is normal.
+    </div>
+
+</section>
+
+
+
+    <!-- CONSUMPTION TABLE -->
+
+    <section class="table-section">
+
+        <h2 class="section-title">
+            📋 Appliance Consumption
+        </h2>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Appliance
+                    </th>
+
+                    <th>
+                        Power
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <tr>
+
+                    <td>
+                        🌀 Fan
+                    </td>
+
+                    <td>
+                        75 W
+                    </td>
+
+                    <td id="fanStatus">
+                        ON
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        💡 Light
+                    </td>
+
+                    <td>
+                        40 W
+                    </td>
+
+                    <td id="lightStatus">
+                        ON
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        ❄️ AC
+                    </td>
+
+                    <td>
+                        1200 W
+                    </td>
+
+                    <td id="acStatus">
+                        ON
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        📺 TV
+                    </td>
+
+                    <td>
+                        100 W
+                    </td>
+
+                    <td id="tvStatus">
+                        OFF
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    ⚡ PowerGuard |
+    Smart Electricity Monitoring System
+
+</footer>
+
+
+
+<!-- YOUR JAVASCRIPT -->
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+</body>
+
+</html>
